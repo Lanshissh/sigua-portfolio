@@ -24,6 +24,18 @@ import {
   FiDownload,
   FiArrowUp,
   FiLinkedin,
+  FiGlobe,
+  FiCalendar,
+  FiClock,
+  FiBriefcase,
+  FiUser,
+  FiAward,
+  FiTrendingUp,
+  FiZap,
+  FiUsers,
+  FiShield,
+  FiLayers,
+  FiCheckCircle,
 } from "react-icons/fi";
 import {
   SiJavascript,
@@ -48,7 +60,6 @@ import cert5 from "./assets/Dataanalytics.jpg";
 import resumepdf from "./assets/Sigua_Resume.pdf";
 import myPhoto from "./assets/1X1.jpg";
 
-/* ===== Data ===== */
 const TESTIMONIALS = [
   { quote: "A fast learner with strong ownership.", name: "Lance Pogi", role: "Team Lead" },
   { quote: "Clean code and great communication.", name: "Lance mas pogi", role: "Advisor" },
@@ -64,7 +75,6 @@ const SKILLS = [
   { name: "Git & GitHub", level: 85 },
 ];
 
-/* Brand icons for the skills carousel */
 const SKILL_ICONS = [
   { label: "JavaScript", Icon: SiJavascript },
   { label: "TypeScript", Icon: SiTypescript },
@@ -79,7 +89,7 @@ const SKILL_ICONS = [
   { label: "GitHub", Icon: SiGithubLogo },
 ];
 
-/* ===== Certificates (click to view in modal) ===== */
+/* Certificates */
 const CERTIFICATES = [
   {
     title: "CCNAv7: Introduction to Networks",
@@ -113,7 +123,6 @@ const CERTIFICATES = [
   },
 ];
 
-/* Utility: chunk an array for carousel slides */
 const chunk = (arr, size) =>
   Array.from({ length: Math.ceil(arr.length / size) }, (_, i) =>
     arr.slice(i * size, i * size + size)
@@ -123,10 +132,8 @@ export default function Portfolio() {
   const [showHire, setShowHire] = useState(false);
   const [showTop, setShowTop] = useState(false);
 
-  /* New: active certificate for the modal */
   const [activeCert, setActiveCert] = useState(null);
 
-  /* NEW: contact form submit state for Formspree */
   const [submitStatus, setSubmitStatus] = useState("idle");
   const [submitMsg, setSubmitMsg] = useState("");
 
@@ -142,7 +149,6 @@ export default function Portfolio() {
 
   const year = useMemo(() => new Date().getFullYear(), []);
 
-  /* UPDATED: send to Formspree instead of mailto */
   const handleContactSubmit = async (e) => {
     e.preventDefault();
     setSubmitStatus("loading");
@@ -186,12 +192,10 @@ export default function Portfolio() {
     }
   };
 
-  /* Build slides: 6 logos per slide on desktop */
   const slides = chunk(SKILL_ICONS, 6);
 
   return (
     <div style={{ scrollBehavior: "smooth" }}>
-      {/* ===== Ambient Layers (no cursor glow) ===== */}
       <div className="unreal-layers" aria-hidden>
         <div className="stars" />
         <div className="aurora a1" />
@@ -212,9 +216,8 @@ export default function Portfolio() {
         </svg>
       </div>
 
-      {/* ===== Styles (includes .avatar) ===== */}
+      {/* Styles */}
       <style>{`
-        /* Theme */
         [data-bs-theme='dark']{
           --ink:#F2E9E3; --muted:#CDBDB0;
           --bg-1:#171717; --bg-2:#1f1f1f;
@@ -460,7 +463,6 @@ export default function Portfolio() {
           padding-right: max(0.75rem, calc(var(--bs-gutter-x) * 0.5));
         }
 
-        /* ✅ Avatar style */
         .avatar{
           width:64px; height:64px; border-radius:9999px; object-fit:cover; display:block;
           border:1px solid var(--border);
@@ -468,7 +470,7 @@ export default function Portfolio() {
         }
       `}</style>
 
-      {/* ===================== NAVBAR ===================== */}
+      {/* NAVBAR */}
       <div className="center-nav">
         <div className={`nav-shell border rounded-pill shadow-sm ${showTop ? "scrolled" : ""}`}>
           <Navbar expand="md" className="rounded-pill px-2">
@@ -493,7 +495,7 @@ export default function Portfolio() {
 
       <div className="nav-spacer" aria-hidden />
 
-      {/* ===================== HERO ===================== */}
+      {/* HERO */}
       <header id="top" className="hero layer-1">
         <div className="hero-wrap">
           <Galaxy
@@ -537,7 +539,7 @@ export default function Portfolio() {
                 <Col lg={5}>
                   <div className="hero-card p-3 p-md-4">
                     <div className="d-flex align-items-center gap-3">
-                      {/* ✅ Photo */}
+                      {/* Pic */}
                       <img
                         src={myPhoto}
                         alt="Patrick Sigua"
@@ -565,7 +567,7 @@ export default function Portfolio() {
         </div>
       </header>
 
-      {/* ===================== SKILLS LOGO CAROUSEL (after hero) ===================== */}
+      {/* SKILLS CAROUSEL */}
       <section className="section pt-4 layer-1" aria-label="Skills Logos">
         <div className="container-narrow">
           <div className="tech-strip">
@@ -596,7 +598,7 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* ===================== ABOUT + SKILLS ===================== */}
+      {/* ABOUT tsaka SKILLS */}
       <section id="about" className="section layer-1">
         <div className="container-narrow">
           <Row className="g-4">
@@ -608,6 +610,37 @@ export default function Portfolio() {
                     I enjoy solving problems with code and designing intuitive UI. I’m comfortable with Agile,
                     Git, and code reviews—and I’m eager to learn from mentors during OJT.
                   </p>
+
+                  <div className="small d-grid gap-2 mt-3">
+                    <div className="d-flex align-items-center gap-2">
+                      <span className="chip">🎯 Goal-oriented</span>
+                      <span className="chip">🧩 Team player</span>
+                      <span className="chip">🧪 Test-minded</span>
+                    </div>
+                    <div className="d-flex align-items-center gap-2 flex-wrap">
+                      <span className="chip">⌛ Meets deadlines</span>
+                      <span className="chip">🧠 Problem-solving</span>
+                      <span className="chip">🧭 Detail-oriented</span>
+                    </div>
+                  </div>
+
+                  <Row className="g-3 mt-3">
+                    <Col sm={6}>
+                      <h6 className="ink-underline m-0">Education</h6>
+                      <small className="muted d-block">BS Computer Science</small>
+                      <small className="muted d-block">Holy Angel University</small>
+                      <small className="muted">2022 — {year}</small>
+                    </Col>
+                    <Col sm={6}>
+                      <h6 className="ink-underline m-0">Strengths</h6>
+                      <ul className="m-0 mt-1 muted small">
+                        <li>Clean, readable code</li>
+                        <li>UX-first mindset</li>
+                        <li>Good communicator</li>
+                      </ul>
+                    </Col>
+                  </Row>
+
                   <div className="d-flex gap-2 flex-wrap mt-3">
                     {["Accessibility", "Responsiveness", "Performance", "DX / Tooling"].map((c) => (
                       <span key={c} className="chip">{c}</span>
@@ -616,6 +649,7 @@ export default function Portfolio() {
                 </Card.Body>
               </Card>
             </Col>
+
             <Col lg={6}>
               <Card className="glass-card h-100 p-1">
                 <Card.Body className="p-4 p-md-5">
@@ -637,7 +671,7 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* ===================== TESTIMONIALS ===================== */}
+      {/* TESTIMONIALS */}
       <section id="testimonial" className="section layer-1">
         <div className="container-narrow">
           <Card className="glass-card">
@@ -660,7 +694,7 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* ===================== RESUME (Certificates) ===================== */}
+      {/* RESUME */}
       <section id="resume" className="section layer-1">
         <div className="container-narrow">
           <Row className="g-4">
@@ -672,7 +706,7 @@ export default function Portfolio() {
                     <a className="u-outline" href={resumepdf} download><FiDownload className="me-2" />Download PDF</a>
                   </div>
 
-                  {/* Certificates list (click to open) */}
+                  {/* Certificates list */}
                   <div className="position-relative">
                     <h5 className="fw-semibold mb-3">Certificates</h5>
                     <div className="d-grid gap-3">
@@ -700,11 +734,47 @@ export default function Portfolio() {
               <Card className="glass-card h-100">
                 <Card.Body className="p-4 p-md-5">
                   <h5 className="fw-semibold">Quick Info</h5>
+
                   <div className="mt-3 d-grid gap-2 small">
-                    <span className="d-flex align-items-center gap-2"><FiMapPin /> Based in: <strong>Angeles City, Pampanga</strong></span>
-                    <span className="d-flex align-items-center gap-2"><FiPhone /> Phone: <a className="ink-link" href="tel:+639055549979">+63 905 554 9979</a></span>
-                    <span className="d-flex align-items-center gap-2"><FiMail /> Email: <a className="ink-link" href="mailto:patricksigua007@gmail.com">patricksigua007@gmail.com</a></span>
+                    <span className="d-flex align-items-center gap-2">
+                      <FiMapPin /> Based in: <strong>Angeles City, Pampanga</strong>
+                    </span>
+                    <span className="d-flex align-items-center gap-2">
+                      <FiPhone /> Phone: <a className="ink-link" href="tel:+639055549979">+63 905 554 9979</a>
+                    </span>
+                    <span className="d-flex align-items-center gap-2">
+                      <FiMail /> Email: <a className="ink-link break" href="mailto:patricksigua007@gmail.com">patricksigua007@gmail.com</a>
+                    </span>
+
+                    <span className="d-flex align-items-center gap-2">
+                      <FiCalendar /> Availability: <strong>Open for OJT / Internship</strong>
+                    </span>
+                    <span className="d-flex align-items-center gap-2">
+                      <FiClock /> Timezone: <strong>Asia/Manila (UTC+8)</strong>
+                    </span>
+
+                    <span className="d-flex align-items-center gap-2">
+                      <FiUser /> Languages: <strong>English, Filipino</strong>
+                    </span>
+
+                    <span className="d-flex align-items-center gap-2">
+                      <FiGlobe /> Website:{" "}
+                      <a className="ink-link break" href="#top">panayan taya pa deploy</a>
+                    </span>
+                    <span className="d-flex align-items-center gap-2">
+                      <FiGithub /> GitHub:{" "}
+                      <a className="ink-link break" href="https://github.com/cspatrick-hau" target="_blank" rel="noreferrer">
+                        cspatrick-hau <FiExternalLink />
+                      </a>
+                    </span>
+                    <span className="d-flex align-items-center gap-2">
+                      <FiLinkedin /> LinkedIn:{" "}
+                      <a className="ink-link break" href="https://www.linkedin.com/in/patrick-sigua-8a4b15349/" target="_blank" rel="noreferrer">
+                        patrick-sigua-8a4b15349 <FiExternalLink />
+                      </a>
+                    </span>
                   </div>
+
                   <hr />
                   <h6 className="text-uppercase muted">Tech Stack</h6>
                   <div className="d-flex flex-wrap gap-2">
@@ -719,7 +789,7 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* ===================== CTA ===================== */}
+      {/* CTA */}
       <section className="section layer-1">
         <div className="container-narrow">
           <Card className="glass-card">
@@ -739,7 +809,7 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* ===================== CONTACT ===================== */}
+      {/* CONTACT */}
       <section id="contact" className="section layer-1">
         <div className="container-narrow">
           <Row className="g-4">
@@ -749,7 +819,6 @@ export default function Portfolio() {
                   <h2 className="unreal-title" style={{ fontSize: "var(--fs-h2)" }}>Contact</h2>
                   <p className="muted">Looking for OJT / internship opportunities. Send me a message — I’ll reply as soon as I can.</p>
 
-                  {/* UPDATED: AJAX Formspree submit + status messages */}
                   <Form onSubmit={handleContactSubmit} className="mt-3" noValidate>
                     <Row className="g-3">
                       <Col md={6}>
@@ -768,7 +837,6 @@ export default function Portfolio() {
                         </FloatingLabel>
                       </Col>
 
-                      {/* Status message */}
                       <Col xs={12}>
                         {submitStatus === "success" && (
                           <div className="alert alert-success mb-0" role="alert">
@@ -800,10 +868,53 @@ export default function Portfolio() {
               <Card className="glass-card h-100">
                 <Card.Body className="p-4 p-md-5">
                   <h5 className="fw-semibold">Why me?</h5>
-                  <ul className="mt-2 mb-0 muted">
-                    <li>Curious, disciplined, and eager to learn.</li>
-                    <li>Comfortable with Agile, Git, and code reviews.</li>
-                    <li>Focus on usability, accessibility, and performance.</li>
+
+                  <div className="d-flex flex-wrap gap-2 mt-2">
+                    <span className="chip d-inline-flex align-items-center gap-1">
+                      <FiZap /> Learns fast
+                    </span>
+                    <span className="chip d-inline-flex align-items-center gap-1">
+                      <FiShield /> Reliable
+                    </span>
+                    <span className="chip d-inline-flex align-items-center gap-1">
+                      <FiUsers /> Team player
+                    </span>
+                    <span className="chip d-inline-flex align-items-center gap-1">
+                      <FiLayers /> Clean code
+                    </span>
+                  </div>
+
+                  <ul className="mt-3 mb-0 muted small">
+                    <li className="mb-1 d-flex align-items-start gap-2">
+                      <FiAward className="mt-1" />
+                      Delivered UI features with accessibility in mind (semantic HTML, keyboard focus, color contrast).
+                    </li>
+                    <li className="mb-1 d-flex align-items-start gap-2">
+                      <FiTrendingUp className="mt-1" />
+                      Optimized React components (memoization + lighter renders) for smoother UX on mobile devices.
+                    </li>
+                    <li className="mb-1 d-flex align-items-start gap-2">
+                      <FiShield className="mt-1" />
+                      Comfortable with Git flow and code reviews; keeps branches tidy and changes well-scoped.
+                    </li>
+                  </ul>
+
+                  <hr className="my-3" />
+
+                  <h6 className="fw-semibold mb-2">How I work</h6>
+                  <ul className="mt-0 mb-0 muted small">
+                    <li className="mb-1 d-flex align-items-start gap-2">
+                      <FiCheckCircle className="mt-1" />
+                      Communicate early, ask clarifying questions, and document decisions.
+                    </li>
+                    <li className="mb-1 d-flex align-items-start gap-2">
+                      <FiCheckCircle className="mt-1" />
+                      Break tasks into small deliverables; ship iteratively with visible progress.
+                    </li>
+                    <li className="mb-1 d-flex align-items-start gap-2">
+                      <FiCheckCircle className="mt-1" />
+                      Prioritize usability, performance, and responsive behavior across devices.
+                    </li>
                   </ul>
                 </Card.Body>
               </Card>
@@ -812,7 +923,7 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* ===================== FOOTER ===================== */}
+      {/* FOOTER */}
       <footer className="py-4 border-top layer-1">
         <div className="container-narrow d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-2">
           <div className="small muted">© {year} Patrick Sigua — All rights reserved.</div>
@@ -824,19 +935,7 @@ export default function Portfolio() {
         </div>
       </footer>
 
-      {/* Back-to-Top */}
-      {showTop && (
-        <Button
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="back-to-top"
-          aria-label="Back to top"
-          title="Back to top"
-        >
-          <FiArrowUp />
-        </Button>
-      )}
-
-      {/* Hire Me Modal */}
+      {/* Modal para hire tabalu */}
       <Modal show={showHire} onHide={() => setShowHire(false)} centered>
         <Modal.Header closeButton><Modal.Title>Hire Me for OJT</Modal.Title></Modal.Header>
         <Modal.Body>
@@ -852,7 +951,7 @@ export default function Portfolio() {
         </Modal.Body>
       </Modal>
 
-      {/* Certificate Viewer Modal */}
+      {/* Modal para Certi */}
       <Modal show={!!activeCert} onHide={() => setActiveCert(null)} centered size="lg">
         <Modal.Header closeButton>
           <Modal.Title className="small">
