@@ -14,6 +14,7 @@ import {
   Carousel,
   ProgressBar,
   Stack,
+  Offcanvas,
 } from "react-bootstrap";
 import {
   FiGithub,
@@ -55,7 +56,7 @@ import myLogo from "./assets/logo.png";
 import cert1 from "./assets/CCNAv7.jpg";
 import cert2 from "./assets/Cybersecurity.jpg";
 import cert3 from "./assets/EnglishIT.jpg";
-import cert4 from "./assets/CyberThreat.jpg";
+import cert4 from "./assets/Cyberthreat.jpg";
 import cert5 from "./assets/Dataanalytics.jpg";
 import resumepdf from "./assets/Sigua_Resume.pdf";
 import myPhoto from "./assets/1X1.jpg";
