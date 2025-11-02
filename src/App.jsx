@@ -169,7 +169,7 @@ export default function Portfolio() {
     }
 
     try {
-      const res = await fetch("https://formspree.io/f/mwpwwzzv", {
+      const res = await fetch("https://formspree.io/f/xldoajpe", {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify(data),

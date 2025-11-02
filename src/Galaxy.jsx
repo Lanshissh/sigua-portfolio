@@ -1,12 +1,13 @@
-// src/Galaxy.jsx
-import { Renderer, Program, Mesh, Color, Triangle } from "ogl";
-import { useEffect, useRef } from "react";
-import "./Galaxy.css";
+import { Renderer, Program, Mesh, Color, Triangle } from 'ogl';
+import { useEffect, useRef } from 'react';
+import './Galaxy.css';
 
 const vertexShader = `
 attribute vec2 uv;
 attribute vec2 position;
+
 varying vec2 vUv;
+
 void main() {
   vUv = uv;
   gl_Position = vec4(position, 0, 1);
@@ -48,7 +49,9 @@ float Hash21(vec2 p) {
   return fract(p.x * p.y);
 }
 
-float tri(float x) { return abs(fract(x) * 2.0 - 1.0); }
+float tri(float x) {
+  return abs(fract(x) * 2.0 - 1.0);
+}
 
 float tris(float x) {
   float t = fract(x);
@@ -80,7 +83,8 @@ float Star(vec2 uv, float flare) {
 
 vec3 StarLayer(vec2 uv) {
   vec3 col = vec3(0.0);
-  vec2 gv = fract(uv) - 0.5;
+
+  vec2 gv = fract(uv) - 0.5; 
   vec2 id = floor(uv);
 
   for (int y = -1; y <= 1; y++) {
@@ -96,7 +100,7 @@ vec3 StarLayer(vec2 uv) {
       float blu = smoothstep(STAR_COLOR_CUTOFF, 1.0, Hash21(si + 3.0)) + STAR_COLOR_CUTOFF;
       float grn = min(red, blu) * seed;
       vec3 base = vec3(red, grn, blu);
-
+      
       float hue = atan(base.g - base.r, base.b - base.r) / (2.0 * 3.14159) + 0.5;
       hue = fract(hue + uHueShift / 360.0);
       float sat = length(base - vec3(dot(base, vec3(0.299, 0.587, 0.114)))) * uSaturation;
@@ -111,10 +115,11 @@ vec3 StarLayer(vec2 uv) {
       float twinkle = trisn(uTime * uSpeed + seed * 6.2831) * 0.5 + 1.0;
       twinkle = mix(1.0, twinkle, uTwinkleIntensity);
       star *= twinkle;
-
+      
       col += star * size * color;
     }
   }
+
   return col;
 }
 
@@ -123,7 +128,7 @@ void main() {
   vec2 uv = (vUv * uResolution.xy - focalPx) / uResolution.y;
 
   vec2 mouseNorm = uMouse - vec2(0.5);
-
+  
   if (uAutoCenterRepulsion > 0.0) {
     vec2 centerUV = vec2(0.0, 0.0);
     float centerDist = length(uv - centerUV);
@@ -142,9 +147,11 @@ void main() {
   float autoRotAngle = uTime * uRotationSpeed;
   mat2 autoRot = mat2(cos(autoRotAngle), -sin(autoRotAngle), sin(autoRotAngle), cos(autoRotAngle));
   uv = autoRot * uv;
+
   uv = mat2(uRotation.x, -uRotation.y, uRotation.y, uRotation.x) * uv;
 
   vec3 col = vec3(0.0);
+
   for (float i = 0.0; i < 1.0; i += 1.0 / NUM_LAYER) {
     float depth = fract(i + uStarSpeed * uSpeed);
     float scale = mix(20.0 * uDensity, 0.5 * uDensity, depth);
@@ -191,7 +198,10 @@ export default function Galaxy({
   useEffect(() => {
     if (!ctnDom.current) return;
     const ctn = ctnDom.current;
-    const renderer = new Renderer({ alpha: transparent, premultipliedAlpha: false });
+    const renderer = new Renderer({
+      alpha: transparent,
+      premultipliedAlpha: false
+    });
     const gl = renderer.gl;
 
     if (transparent) {
@@ -205,7 +215,8 @@ export default function Galaxy({
     let program;
 
     function resize() {
-      renderer.setSize(ctn.offsetWidth, ctn.offsetHeight);
+      const scale = 1;
+      renderer.setSize(ctn.offsetWidth * scale, ctn.offsetHeight * scale);
       if (program) {
         program.uniforms.uResolution.value = new Color(
           gl.canvas.width,
@@ -214,7 +225,7 @@ export default function Galaxy({
         );
       }
     }
-    window.addEventListener("resize", resize, false);
+    window.addEventListener('resize', resize, false);
     resize();
 
     const geometry = new Triangle(gl);
@@ -223,14 +234,18 @@ export default function Galaxy({
       fragment: fragmentShader,
       uniforms: {
         uTime: { value: 0 },
-        uResolution: { value: new Color(gl.canvas.width, gl.canvas.height, gl.canvas.width / gl.canvas.height) },
+        uResolution: {
+          value: new Color(gl.canvas.width, gl.canvas.height, gl.canvas.width / gl.canvas.height)
+        },
         uFocal: { value: new Float32Array(focal) },
         uRotation: { value: new Float32Array(rotation) },
         uStarSpeed: { value: starSpeed },
         uDensity: { value: density },
         uHueShift: { value: hueShift },
         uSpeed: { value: speed },
-        uMouse: { value: new Float32Array([smoothMousePos.current.x, smoothMousePos.current.y]) },
+        uMouse: {
+          value: new Float32Array([smoothMousePos.current.x, smoothMousePos.current.y])
+        },
         uGlowIntensity: { value: glowIntensity },
         uSaturation: { value: saturation },
         uMouseRepulsion: { value: mouseRepulsion },
@@ -239,24 +254,25 @@ export default function Galaxy({
         uRepulsionStrength: { value: repulsionStrength },
         uMouseActiveFactor: { value: 0.0 },
         uAutoCenterRepulsion: { value: autoCenterRepulsion },
-        uTransparent: { value: transparent },
-      },
+        uTransparent: { value: transparent }
+      }
     });
 
     const mesh = new Mesh(gl, { geometry, program });
-    let raf;
+    let animateId;
 
     function update(t) {
-      raf = requestAnimationFrame(update);
+      animateId = requestAnimationFrame(update);
       if (!disableAnimation) {
         program.uniforms.uTime.value = t * 0.001;
         program.uniforms.uStarSpeed.value = (t * 0.001 * starSpeed) / 10.0;
       }
 
-      const lerp = 0.05;
-      smoothMousePos.current.x += (targetMousePos.current.x - smoothMousePos.current.x) * lerp;
-      smoothMousePos.current.y += (targetMousePos.current.y - smoothMousePos.current.y) * lerp;
-      smoothMouseActive.current += (targetMouseActive.current - smoothMouseActive.current) * lerp;
+      const lerpFactor = 0.05;
+      smoothMousePos.current.x += (targetMousePos.current.x - smoothMousePos.current.x) * lerpFactor;
+      smoothMousePos.current.y += (targetMousePos.current.y - smoothMousePos.current.y) * lerpFactor;
+
+      smoothMouseActive.current += (targetMouseActive.current - smoothMouseActive.current) * lerpFactor;
 
       program.uniforms.uMouse.value[0] = smoothMousePos.current.x;
       program.uniforms.uMouse.value[1] = smoothMousePos.current.y;
@@ -264,37 +280,53 @@ export default function Galaxy({
 
       renderer.render({ scene: mesh });
     }
-    raf = requestAnimationFrame(update);
+    animateId = requestAnimationFrame(update);
     ctn.appendChild(gl.canvas);
 
-    function onMove(e) {
+    function handleMouseMove(e) {
       const rect = ctn.getBoundingClientRect();
       const x = (e.clientX - rect.left) / rect.width;
       const y = 1.0 - (e.clientY - rect.top) / rect.height;
       targetMousePos.current = { x, y };
       targetMouseActive.current = 1.0;
     }
-    function onLeave() { targetMouseActive.current = 0.0; }
+
+    function handleMouseLeave() {
+      targetMouseActive.current = 0.0;
+    }
 
     if (mouseInteraction) {
-      ctn.addEventListener("mousemove", onMove);
-      ctn.addEventListener("mouseleave", onLeave);
+      ctn.addEventListener('mousemove', handleMouseMove);
+      ctn.addEventListener('mouseleave', handleMouseLeave);
     }
 
     return () => {
-      cancelAnimationFrame(raf);
-      window.removeEventListener("resize", resize);
+      cancelAnimationFrame(animateId);
+      window.removeEventListener('resize', resize);
       if (mouseInteraction) {
-        ctn.removeEventListener("mousemove", onMove);
-        ctn.removeEventListener("mouseleave", onLeave);
+        ctn.removeEventListener('mousemove', handleMouseMove);
+        ctn.removeEventListener('mouseleave', handleMouseLeave);
       }
       ctn.removeChild(gl.canvas);
-      gl.getExtension("WEBGL_lose_context")?.loseContext();
+      gl.getExtension('WEBGL_lose_context')?.loseContext();
     };
   }, [
-    focal, rotation, starSpeed, density, hueShift, disableAnimation, speed,
-    mouseInteraction, glowIntensity, saturation, mouseRepulsion, twinkleIntensity,
-    rotationSpeed, repulsionStrength, autoCenterRepulsion, transparent
+    focal,
+    rotation,
+    starSpeed,
+    density,
+    hueShift,
+    disableAnimation,
+    speed,
+    mouseInteraction,
+    glowIntensity,
+    saturation,
+    mouseRepulsion,
+    twinkleIntensity,
+    rotationSpeed,
+    repulsionStrength,
+    autoCenterRepulsion,
+    transparent
   ]);
 
   return <div ref={ctnDom} className="galaxy-container" {...rest} />;
